@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    >
+
+<!--    Score and game label-->
+    <TextView
+        android:id="@+id/score_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score: 0"
+        android:layout_marginTop="20dp"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/game_question_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select the right color"
+        android:layout_gravity="center_horizontal"
+        android:textSize="30sp"
+        android:layout_marginTop="100dp"
+        />
+
+    <!--Contents of the actual game-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        >
+
+        <Button
+            android:id="@+id/left_button"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="25dp"
+            android:onClick="checkAnswer"
+            android:background="#F00"
+        />
+
+        <Button
+            android:id="@+id/right_button"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="25dp"
+            android:onClick="checkAnswer"
+            android:background="#00F"
+        />
+
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/color_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="placeholder"
+            android:layout_gravity="center_horizontal"
+            android:textSize="50sp"
+            android:layout_marginTop="0dp"
+
+            />
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ViewGroup (Parent) -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:layout_gravity="center_vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        >
+
+    <TextView
+        android:id="@+id/simple_dice_label_1"
+        android:layout_margin="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/die_label"
+        android:layout_gravity="center_horizontal"
+        android:textSize="80sp"
+        android:textColor="#F00"
+        />
+
+
+    <TextView
+        android:id="@+id/simple_dice_label_2"
+        android:layout_margin="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/die_label"
+        android:layout_gravity="center_horizontal"
+        android:textSize="80sp"
+        android:textColor="#00F"
+        />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dice_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/dice_1"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/roll_label"
+        android:layout_gravity="center_horizontal"
+        android:onClick="simpleRoll"
+        android:textSize="30sp"
+        />
+
+</LinearLayout>
