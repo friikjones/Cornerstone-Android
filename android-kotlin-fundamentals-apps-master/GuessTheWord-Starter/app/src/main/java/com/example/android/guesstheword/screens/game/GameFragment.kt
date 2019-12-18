@@ -53,31 +53,17 @@ class GameFragment : Fragment() {
                 false
         )
 
-        binding.correctButton.setOnClickListener { onCorrect() }
-        binding.skipButton.setOnClickListener { onSkip() }
-        binding.endGameButton.setOnClickListener { onEndGame() }
-
-        viewModel.score.observe(this, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-        viewModel.word.observe(this, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
         viewModel.eventGameFinish.observe(this, Observer<Boolean> { hasFinished ->
             if (hasFinished) gameFinished()
         })
+
+        binding.gameViewModel = viewModel
+        binding.lifecycleOwner = this
 
         updateScoreText()
         updateWordText()
         return binding.root
 
-    }
-
-    private fun onSkip() {
-        viewModel.onSkip()
-    }
-    private fun onCorrect() {
-        viewModel.onCorrect()
     }
 
     private fun updateWordText() {
@@ -86,10 +72,6 @@ class GameFragment : Fragment() {
 
     private fun updateScoreText() {
         binding.scoreText.text = viewModel.score.value.toString()
-    }
-
-    private fun onEndGame() {
-        gameFinished()
     }
 
     private fun gameFinished() {
