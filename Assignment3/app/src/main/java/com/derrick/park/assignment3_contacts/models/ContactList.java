@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ContactList {
     @SerializedName("results")
@@ -13,4 +14,6 @@ public class ContactList {
     public ArrayList<Contact> getContactList() {
         return contactList;
     }
+
+
 }

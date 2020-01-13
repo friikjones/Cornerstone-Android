@@ -38,14 +38,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         Contact person = mData.get(position);
         Log.i("DATA", "person name: "+person.getName());
         Log.i("DATA", "person cell: "+person.getCell());
-        holder.myTextView.setText((CharSequence) person.getName());
+
+        holder.myTextView.setText("" + person.getName());
         holder.myNumber.setText(person.getCell());
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return 0;
+        return mData.size();
     }
 
 

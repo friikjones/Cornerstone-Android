@@ -3,6 +3,7 @@ package com.derrick.park.assignment3_contacts.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class AddContact extends AppCompatActivity {
 
     private Contact newContact;
+    private Contact.Name auxName;
 
 
     @Override
@@ -42,7 +44,10 @@ public class AddContact extends AppCompatActivity {
 
                 if (newName.getText().toString().split(" ").length != 2) {
                     Toast.makeText(getApplicationContext(),"Name has to contain two words!",Toast.LENGTH_SHORT).show();
-                    //Write into name
+                    auxName.setFirst(newName.getText().toString().split(" ")[0]);
+                    auxName.setLast(newName.getText().toString().split(" ")[1]);
+                    newContact.setName(auxName);
+                    Log.i("Check", "auxName: "+auxName.toString());
                     return;
                 }
 
@@ -53,8 +58,8 @@ public class AddContact extends AppCompatActivity {
                 }
 
                 MainActivity.mContactList.add(newContact);
-                MyList.getInstance().contactList.add(new contact(newName.getText().toString(), newPhone.getText().toString()));
-                MyList.getInstance().sortList();
+//                MyList.getInstance().contactList.add(new contact(newName.getText().toString(), newPhone.getText().toString()));
+//                MyList.getInstance().sortList();
 
                 Toast.makeText(getApplicationContext(),"Contact added!",Toast.LENGTH_SHORT).show();
                 finish();
