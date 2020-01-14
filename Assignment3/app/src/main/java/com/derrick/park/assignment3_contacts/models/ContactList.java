@@ -15,5 +15,4 @@ public class ContactList {
         return contactList;
     }
 
-
 }

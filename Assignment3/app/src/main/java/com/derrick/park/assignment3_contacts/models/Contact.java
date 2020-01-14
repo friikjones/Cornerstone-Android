@@ -57,7 +57,7 @@ public class Contact {
     /**
      * Name {first: , last: }
      */
-    public class Name {
+    public static class Name {
         public void setFirst(String first) {
             this.first = first;
         }

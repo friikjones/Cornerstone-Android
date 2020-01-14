@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,9 @@ public class AddContact extends AppCompatActivity {
 
     private Contact newContact;
     private Contact.Name auxName;
+    private String nameStringFirst;
+    private String nameStringSecond;
+    private String cellString;
 
 
     @Override
@@ -29,6 +33,7 @@ public class AddContact extends AppCompatActivity {
 
         Button btnBack = findViewById(R.id.toolbar_back_button);
         btnBack.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 finish();
@@ -39,32 +44,64 @@ public class AddContact extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView newName = (TextView) findViewById(R.id.newNameAdd);
-                TextView newPhone = (TextView) findViewById(R.id.newPhoneAdd);
+                EditText newName = (EditText) findViewById(R.id.newNameAdd);
+                EditText newPhone = (EditText) findViewById(R.id.newPhoneAdd);
+
+                newContact = new Contact();
+                auxName = new Contact.Name();
 
                 if (newName.getText().toString().split(" ").length != 2) {
                     Toast.makeText(getApplicationContext(),"Name has to contain two words!",Toast.LENGTH_SHORT).show();
-                    auxName.setFirst(newName.getText().toString().split(" ")[0]);
-                    auxName.setLast(newName.getText().toString().split(" ")[1]);
-                    newContact.setName(auxName);
-                    Log.i("Check", "auxName: "+auxName.toString());
+
+
                     return;
+                }else{
+                    nameStringFirst = newName.getText().toString().split(" ")[0];
+                    nameStringSecond = newName.getText().toString().split(" ")[1];
                 }
 
                 if (newPhone.getText().toString().length() != 10) {
                     Toast.makeText(getApplicationContext(),"Phone has to contains 10 digits only!",Toast.LENGTH_SHORT).show();
-                    newContact.setCell(newPhone.getText().toString());
+
                     return;
+                }else{
+                    cellString = newPhone.getText().toString();
                 }
 
+
+
+                newContact.setCell(cellFormatter(cellString));
+                auxName.setFirst(nameStringFirst);
+                auxName.setLast(nameStringSecond);
+                newContact.setName(auxName);
+
+                Log.i("Check", "check made contact");
+                Log.i("Check", newContact.toString());
+
+                Log.i("Check", "check before add");
                 MainActivity.mContactList.add(newContact);
-//                MyList.getInstance().contactList.add(new contact(newName.getText().toString(), newPhone.getText().toString()));
-//                MyList.getInstance().sortList();
+                Log.i("Check", "check added");
+                MainActivity.sortContactList();
+                Log.i("Check", "check sorted");
 
                 Toast.makeText(getApplicationContext(),"Contact added!",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
 
+    }
+
+    private String cellFormatter(String cell){
+
+        String auxString = "";
+        for(int i=0; i<10;i++){
+            if(i==3 || i==6){
+                auxString += "-";
+                auxString += cell.charAt(i);
+            }else{
+                auxString += cell.charAt(i);
+            }
+        }
+        return auxString;
     }
 }
