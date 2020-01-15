@@ -28,6 +28,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     public static ArrayList<Contact> mContactList;
     public static final String TAG = MainActivity.class.getSimpleName();
+    public static ArrayList<String> mContactHeaders;
 
     MyRecyclerViewAdapter adapter;
 
@@ -50,13 +51,20 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ContactList> call, Response<ContactList> response) {
                 if (response.isSuccessful()) {
                     mContactList = response.body().getContactList();
+
                     sortContactList();
+
+                    addDummyContacts();
+
+                    sortContactList();
+
+                    createHeaders();
 
                     for(Contact contact: mContactList) {
                         Log.d(TAG, "onResponse: " + mContactList.size());
                         Log.d(TAG, "onResponse: " + contact.toString());
                     }
-                    adapter = new MyRecyclerViewAdapter(MainActivity.this, mContactList);
+                    adapter = new MyRecyclerViewAdapter(MainActivity.this, mContactList, mContactHeaders);
                     recyclerView.setAdapter(adapter);
                 }
             }
@@ -85,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void printContactList(){
+    public static void printContactList(){
         for (Contact c : mContactList) {
             Log.i("Contact", "Name: "+ c.getName()+", phone: "+c.getCell());
         }
@@ -98,6 +106,40 @@ public class MainActivity extends AppCompatActivity {
                 return o1.getName().toString().compareTo(o2.getName().toString());
             }
         });
+
+    }
+
+    public static void addDummyContacts(){
+        Character auxChar = 'Z';
+
+        ArrayList<Contact> outputList = (ArrayList) mContactList.clone();
+
+        int j = 0;
+
+        for(int i=0; i<mContactList.size();i++){
+            if(auxChar != mContactList.get(i).getName().getFirst().charAt(0)){
+                Contact dummy = new Contact();
+                dummy.setName(new Contact.Name());
+                dummy.getName().setFirst(""+mContactList.get(i).getName().getFirst().charAt(0));
+                outputList.add(j,dummy);
+                j++;
+            }
+            auxChar = mContactList.get(i).getName().getFirst().charAt(0);
+            j++;
+        }
+
+        mContactList = (ArrayList) outputList.clone();
+    }
+
+    public static void createHeaders(){
+        mContactHeaders = new ArrayList<String>();
+        Character auxChar = 0;
+        for (Contact contact: mContactList) {
+            if(auxChar != contact.getName().getFirst().charAt(0)){
+                mContactHeaders.add(""+contact.getName().getFirst().charAt(0));
+            }
+            auxChar = contact.getName().getFirst().charAt(0);
+        }
     }
 
 

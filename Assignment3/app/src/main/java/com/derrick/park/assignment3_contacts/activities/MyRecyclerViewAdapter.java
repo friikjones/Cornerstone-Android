@@ -16,19 +16,28 @@ import java.util.List;
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Contact> mData;
+    private ArrayList<String> mHeaders;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private Character checkingChar = 0;
+    private int headerPosition = 0;
+    private boolean headerFlag = true;
 
     // data is passed into the constructor
-    MyRecyclerViewAdapter(Context context, ArrayList<Contact> data) {
+    MyRecyclerViewAdapter(Context context, ArrayList<Contact> data, ArrayList<String> headers) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.mHeaders = headers;
     }
 
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.contact_item_file, parent, false);
+        if(headerFlag){
+            view = mInflater.inflate(R.layout.header_file, parent, false);
+        }
+
         return new ViewHolder(view);
     }
 
@@ -36,11 +45,21 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Contact person = mData.get(position);
-        Log.i("DATA", "person name: "+person.getName());
-        Log.i("DATA", "person cell: "+person.getCell());
+        String header = mHeaders.get(headerPosition);
 
-        holder.myTextView.setText("" + person.getName());
-        holder.myNumber.setText(person.getCell());
+        if(headerFlag){
+            holder.myHeader.setText("" + header);
+            headerPosition++;
+            headerFlag = false;
+        }else{
+            holder.myTextView.setText("" + person.getName());
+            holder.myNumber.setText(person.getCell());
+            if(person.getName().getFirst().charAt(0) != checkingChar){
+                headerFlag = true;
+            }
+            checkingChar = person.getName().getFirst().charAt(0);
+        }
+
     }
 
     // total number of rows
@@ -51,20 +70,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView myTextView;
         TextView myNumber;
+        TextView myHeader;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.myTextView);
-            myNumber = itemView.findViewById(R.id.myNumber);
-            itemView.setOnClickListener(this);
-        }
+            if(headerFlag){
+                myHeader = itemView.findViewById(R.id.headerLabel);
+            }else{
+                myTextView = itemView.findViewById(R.id.myTextView);
+                myNumber = itemView.findViewById(R.id.myNumber);
+            }
 
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
 
