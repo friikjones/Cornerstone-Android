@@ -28,51 +28,35 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     public static ArrayList<Contact> mContactList;
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static ArrayList<String> mContactHeaders;
-
-    MyRecyclerViewAdapter adapter;
-
+    public static MyRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        // set up the RecyclerView
         RecyclerView recyclerView = findViewById(R.id.contact_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-        Call<ContactList> call = ContactClient.getContacts(20);
-
+        Call<ContactList> call = ContactClient.getContacts(30);
         call.enqueue(new Callback<ContactList>() {
             @Override
             public void onResponse(Call<ContactList> call, Response<ContactList> response) {
                 if (response.isSuccessful()) {
                     mContactList = response.body().getContactList();
-
                     sortContactList();
-
                     addDummyContacts();
-
                     sortContactList();
-
-                    createHeaders();
 
                     for(Contact contact: mContactList) {
                         Log.d(TAG, "onResponse: " + mContactList.size());
                         Log.d(TAG, "onResponse: " + contact.toString());
                     }
-                    adapter = new MyRecyclerViewAdapter(MainActivity.this, mContactList, mContactHeaders);
+                    adapter = new MyRecyclerViewAdapter(MainActivity.this, mContactList);
                     recyclerView.setAdapter(adapter);
                 }
             }
 
             @Override
             public void onFailure(Call<ContactList> call, Throwable t) {
-                // Error Handling
-
                 Log.i("Check", "check Failure");
             }
         });
@@ -129,17 +113,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mContactList = (ArrayList) outputList.clone();
-    }
-
-    public static void createHeaders(){
-        mContactHeaders = new ArrayList<String>();
-        Character auxChar = 0;
-        for (Contact contact: mContactList) {
-            if(auxChar != contact.getName().getFirst().charAt(0)){
-                mContactHeaders.add(""+contact.getName().getFirst().charAt(0));
-            }
-            auxChar = contact.getName().getFirst().charAt(0);
-        }
     }
 
 

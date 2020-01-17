@@ -23,6 +23,7 @@ public class AddContact extends AppCompatActivity {
     private String nameStringFirst;
     private String nameStringSecond;
     private String cellString;
+    MyRecyclerViewAdapter adapter;
 
 
     @Override
@@ -30,6 +31,7 @@ public class AddContact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
 
+        adapter = MainActivity.adapter;
 
         Button btnBack = findViewById(R.id.toolbar_back_button);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +85,8 @@ public class AddContact extends AppCompatActivity {
                 Log.i("Check", "check added");
                 MainActivity.sortContactList();
                 Log.i("Check", "check sorted");
+
+                adapter.notifyDataSetChanged();
 
                 Toast.makeText(getApplicationContext(),"Contact added!",Toast.LENGTH_SHORT).show();
                 finish();
